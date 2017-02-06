@@ -1,0 +1,12 @@
+*.iml
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+/.idea/sonarlint/
+/.idea/markdown-navigator/
+/.idea/qaplug_profiles.xml
