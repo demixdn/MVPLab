@@ -8,6 +8,6 @@
     <string name="comment_email_default">Eliseo@gardner.biz</string>
     <string name="comments_title">Comments (%1$d)</string>
     <string name="post_text_default">quia et suscipit suscipit recusandae consequuntur expedita et cum reprehenderit molestiae ut ut quas totam nostrum rerum est autem sunt rem eveniet architecto</string>
-    <string name="by_author">by Leanne Graham</string>
+    <string name="by_author">by %1$s</string>
     <string name="post_title_default">sunt aut facere repellat provident occaecati excepturi optio reprehenderit</string>
 </resources>

@@ -6,66 +6,71 @@
     tools:context=".fragments.PostFragment">
 
     <TextView
-        android:text="@string/post_title_default"
+        android:id="@+id/tvPostDetailTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_alignParentTop="true"
         android:layout_marginBottom="8dp"
-        android:id="@+id/tvPostDetailTitle"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/post_title_default"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
 
     <TextView
-        android:text="@string/by_author"
+        android:id="@+id/tvPostDetailAuthor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="8dp"
-        android:layout_below="@+id/tvPostDetailTitle"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/tvPostDetailAuthor"
+        android:layout_below="@+id/tvPostDetailTitle"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/by_author"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
     <TextView
-        android:text="@string/post_text_default"
+        android:id="@+id/tvPostDetailText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="22dp"
-        android:layout_marginStart="22dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:layout_below="@+id/tvPostDetailAuthor"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/tvPostDetailText"
+        android:layout_below="@+id/tvPostDetailAuthor"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="22dp"
+        android:text="@string/post_text_default"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
     <TextView
-        android:text="@string/comments_title"
+        android:id="@+id/tvPostDetailCommentsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvPostDetailText"
         android:layout_alignLeft="@+id/tvPostDetailAuthor"
         android:layout_alignStart="@+id/tvPostDetailAuthor"
-        android:layout_marginTop="16dp"
+        android:layout_below="@+id/tvPostDetailText"
         android:layout_marginBottom="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:id="@+id/tvPostDetailCommentsTitle"/>
+        android:layout_marginTop="16dp"
+        android:text="@string/comments_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
-    <android.support.v7.widget.RecyclerView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/rvPostDetailComments"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_below="@+id/tvPostDetailCommentsTitle"/>
+        android:layout_height="match_parent"
+        android:background="#12000000"
+        android:layout_below="@+id/tvPostDetailCommentsTitle">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvPostDetailComments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
+
 
 </RelativeLayout>

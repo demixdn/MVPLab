@@ -1,6 +1,7 @@
 package com.github.mvplab.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -26,11 +27,14 @@ import butterknife.ButterKnife;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostHolder> implements View.OnClickListener {
 
+    @NonNull
     private final Context context;
+    @NonNull
     private final PostInteractors interactors;
+    @NonNull
     private final List<PostModel> postList;
 
-    public PostsAdapter(Context context, PostInteractors postInteractor, List<PostModel> postList) {
+    public PostsAdapter(@NonNull Context context, @NonNull PostInteractors postInteractor, @NonNull List<PostModel> postList) {
         this.context = context;
         this.interactors = postInteractor;
         this.postList = postList;
@@ -39,12 +43,13 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostHolder> 
     @Override
     public PostHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_post, parent, false);
-        return new PostHolder(view, this);
+        return new PostHolder(view);
     }
 
     @Override
     public void onBindViewHolder(PostHolder holder, int position) {
         PostModel model = postList.get(position);
+        holder.setOnClickListener(position, this);
         if (model.getCommentsCount() > 0) {
             holder.comments.setText(context.getString(R.string.comments_title, model.getCommentsCount()));
         } else {
@@ -52,7 +57,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostHolder> 
             interactors.onCommentNeeded(model.getId());
         }
         if (!TextUtils.isEmpty(model.getAuthorName())) {
-            holder.author.setText(model.getAuthorName());
+            String nick = "@" + model.getAuthorName();
+            holder.author.setText(nick);
         } else {
             interactors.onAuthorNeeded(model.getId());
             holder.author.setText(null);
@@ -63,7 +69,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostHolder> 
 
     @Override
     public int getItemCount() {
-        return postList == null ? 0 : postList.size();
+        return postList.size();
     }
 
 
@@ -84,9 +90,13 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostHolder> 
         @BindView(R.id.tvPostItemCommentsTitle)
         TextView comments;
 
-        PostHolder(View itemView, View.OnClickListener onClickListener) {
+        PostHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+
+        void setOnClickListener(int position, View.OnClickListener onClickListener) {
+            itemView.setTag(position);
             itemView.setOnClickListener(onClickListener);
         }
     }

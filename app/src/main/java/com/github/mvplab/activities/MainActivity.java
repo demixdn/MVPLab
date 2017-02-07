@@ -17,10 +17,11 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnP
     }
 
     private int startPostsFragment() {
+        PostsFragment fragment = PostsFragment.getInstance();
+        fragment.setOnPostSelectedListener(this);
         return getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.container, PostsFragment.getInstance())
-                .addToBackStack(null)
+                .add(R.id.container, fragment)
                 .commit();
     }
 
