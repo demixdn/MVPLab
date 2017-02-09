@@ -1,4 +1,4 @@
-package com.github.mvplab.decoration;
+package com.github.mvplab.ui.post.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

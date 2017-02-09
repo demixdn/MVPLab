@@ -1,4 +1,4 @@
-package com.github.mvplab.models;
+package com.github.mvplab.data.models;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

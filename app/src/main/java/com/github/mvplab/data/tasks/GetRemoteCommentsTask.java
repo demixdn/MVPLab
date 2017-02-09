@@ -6,7 +6,7 @@ import android.util.Log;
 import com.github.mvplab.data.cache.MemoryCache;
 import com.github.mvplab.data.db.DatabaseSource;
 import com.github.mvplab.data.net.RestApi;
-import com.github.mvplab.models.Comment;
+import com.github.mvplab.data.models.Comment;
 
 import java.io.IOException;
 import java.util.List;

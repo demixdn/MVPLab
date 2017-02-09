@@ -4,9 +4,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 
-import com.github.mvplab.models.Comment;
-import com.github.mvplab.models.Post;
-import com.github.mvplab.models.User;
+import com.github.mvplab.data.models.Comment;
+import com.github.mvplab.data.models.Post;
+import com.github.mvplab.data.models.User;
 
 import java.util.List;
 

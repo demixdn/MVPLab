@@ -1,4 +1,4 @@
-package com.github.mvplab.adapters;
+package com.github.mvplab.ui.listposts.view;
 
 /**
  * Date: 06.02.2017
@@ -10,8 +10,4 @@ package com.github.mvplab.adapters;
 
 public interface PostInteractors {
     void onPostClick(int postId);
-
-    void onCommentNeeded(int postId);
-
-    void onAuthorNeeded(int postId);
 }

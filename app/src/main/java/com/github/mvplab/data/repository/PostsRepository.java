@@ -3,7 +3,7 @@ package com.github.mvplab.data.repository;
 import android.support.annotation.NonNull;
 
 import com.github.mvplab.data.callback.PostCallback;
-import com.github.mvplab.models.PostModel;
+import com.github.mvplab.data.models.PostModel;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
 package com.github.mvplab.data.net;
 
 import com.github.mvplab.AppConst;
-import com.github.mvplab.models.Comment;
-import com.github.mvplab.models.Post;
-import com.github.mvplab.models.User;
+import com.github.mvplab.data.models.Comment;
+import com.github.mvplab.data.models.Post;
+import com.github.mvplab.data.models.User;
 
 import java.util.List;
 

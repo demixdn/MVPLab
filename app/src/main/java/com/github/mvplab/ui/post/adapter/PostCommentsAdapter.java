@@ -1,4 +1,4 @@
-package com.github.mvplab.adapters;
+package com.github.mvplab.ui.post.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.mvplab.R;
-import com.github.mvplab.models.Comment;
+import com.github.mvplab.data.models.Comment;
 
 import java.util.List;
 

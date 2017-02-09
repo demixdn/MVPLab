@@ -1,7 +1,9 @@
-package com.github.mvplab.fragments;
+package com.github.mvplab.ui.listposts.view;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -13,12 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.github.mvplab.LabApp;
 import com.github.mvplab.R;
-import com.github.mvplab.adapters.PostInteractors;
-import com.github.mvplab.adapters.PostsAdapter;
-import com.github.mvplab.data.callback.PostCallback;
-import com.github.mvplab.models.PostModel;
+import com.github.mvplab.data.models.PostModel;
+import com.github.mvplab.ui.listposts.adapter.PostsAdapter;
+import com.github.mvplab.ui.listposts.presenter.PostsPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class PostsFragment extends Fragment implements PostInteractors {
+public class PostsFragment extends Fragment implements PostsView, PostInteractors {
     private static final String TAG = "PostsFragment";
 
     @BindView(R.id.rvPosts)
@@ -35,8 +35,10 @@ public class PostsFragment extends Fragment implements PostInteractors {
 
     private Unbinder unbinder;
 
-    private OnPostSelectedListener onPostSelectedListener;
     private PostsAdapter postsAdapter;
+    private PostsPresenter presenter;
+
+    private ProgressDialog progressDialog;
 
     public PostsFragment() {
         // Required empty public constructor
@@ -47,10 +49,6 @@ public class PostsFragment extends Fragment implements PostInteractors {
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public void setOnPostSelectedListener(OnPostSelectedListener onPostSelectedListener) {
-        this.onPostSelectedListener = onPostSelectedListener;
     }
 
     @Override
@@ -67,8 +65,8 @@ public class PostsFragment extends Fragment implements PostInteractors {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.i("***", "onViewCreated: ");
-        initUI();
-        initModel();
+        init();
+        getPresenter().loadPosts();
     }
 
     @Override
@@ -80,7 +78,7 @@ public class PostsFragment extends Fragment implements PostInteractors {
     private void changeActionBar() {
         try {
             getActivity().setTitle(R.string.app_name);
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -93,54 +91,50 @@ public class PostsFragment extends Fragment implements PostInteractors {
         super.onDestroyView();
     }
 
-    private void initUI() {
+    private void init() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Loading...");
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvPosts.setLayoutManager(layoutManager);
-    }
-
-    private void initModel() {
         postsAdapter = new PostsAdapter(getContext(), this, new ArrayList<PostModel>());
         rvPosts.setAdapter(postsAdapter);
-        LabApp.getPostsRepository().getPosts(new PostCallback<List<PostModel>>() {
-            @Override
-            public void onEmit(List<PostModel> data) {
-                postsAdapter.update(data);
-            }
-
-            @Override
-            public void onCompleted() {
-                Log.i("***", "onCompleted: PostCallback<List<PostModel>>");
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                Toast.makeText(getContext(), "getPosts error", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
-
 
 
     @Override
     public void onPostClick(int postId) {
-        Log.i(TAG, "onPostClick: ");
-        if (onPostSelectedListener != null)
-            onPostSelectedListener.onPostSelected(postId);
+        getPresenter().onPostClick(postId);
     }
 
     @Override
-    public void onCommentNeeded(final int postId) {
-        Log.i(TAG, "onCommentNeeded: " + postId);
-
+    public void showProgress() {
+        progressDialog.show();
     }
 
     @Override
-    public void onAuthorNeeded(int postId) {
-        Log.i(TAG, "onAuthorNeeded: " + postId);
+    public void hideProgress() {
+        progressDialog.dismiss();
     }
 
-    public interface OnPostSelectedListener {
-        void onPostSelected(int postId);
+    @Override
+    public void showError(String errorMessage) {
+        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showPosts(@NonNull List<PostModel> models) {
+        postsAdapter.update(models);
+    }
+
+    @Override
+    public void bindPresenter(PostsPresenter presenter) {
+        this.presenter = presenter;
+    }
+
+    @Override
+    public PostsPresenter getPresenter() {
+        return presenter;
     }
 
 }

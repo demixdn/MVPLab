@@ -1,4 +1,4 @@
-package com.github.mvplab.models;
+package com.github.mvplab.data.models;
 
 /**
  * Date: 06.02.2017

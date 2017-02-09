@@ -10,10 +10,10 @@ import com.github.mvplab.data.callback.CommentsNeedCallback;
 import com.github.mvplab.data.callback.PostCallback;
 import com.github.mvplab.data.db.DatabaseSource;
 import com.github.mvplab.data.net.RestApi;
-import com.github.mvplab.models.Comment;
-import com.github.mvplab.models.Post;
-import com.github.mvplab.models.PostModel;
-import com.github.mvplab.models.User;
+import com.github.mvplab.data.models.Comment;
+import com.github.mvplab.data.models.Post;
+import com.github.mvplab.data.models.PostModel;
+import com.github.mvplab.data.models.User;
 
 import java.io.IOException;
 import java.util.ArrayList;

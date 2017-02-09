@@ -3,58 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.PostFragment">
+    tools:context=".ui.post.view.PostFragment">
 
     <TextView
         android:id="@+id/tvPostDetailTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+        style="@style/PostTitleStyle"/>
 
     <TextView
         android:id="@+id/tvPostDetailAuthor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/tvPostDetailTitle"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+        style="@style/PostAuthorStyle"/>
 
     <TextView
         android:id="@+id/tvPostDetailText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/tvPostDetailAuthor"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="22dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="22dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+        style="@style/PostTextStyle"/>
 
     <TextView
         android:id="@+id/tvPostDetailCommentsTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/tvPostDetailAuthor"
         android:layout_alignStart="@+id/tvPostDetailAuthor"
         android:layout_below="@+id/tvPostDetailText"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+        style="@style/PostCommentsTitleStyle"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -66,6 +36,14 @@
             android:id="@+id/rvPostDetailComments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:id="@+id/progress"
+            android:visibility="gone"/>
     </FrameLayout>
 
 

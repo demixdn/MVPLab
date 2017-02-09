@@ -1,4 +1,4 @@
-package com.github.mvplab.adapters;
+package com.github.mvplab.ui.listposts.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,7 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.mvplab.R;
-import com.github.mvplab.models.PostModel;
+import com.github.mvplab.data.models.PostModel;
+import com.github.mvplab.ui.listposts.view.PostInteractors;
 
 import java.util.List;
 
@@ -54,13 +55,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostHolder> 
             holder.comments.setText(context.getString(R.string.comments_title, model.getCommentsCount()));
         } else {
             holder.comments.setText(null);
-            interactors.onCommentNeeded(model.getId());
         }
         if (!TextUtils.isEmpty(model.getAuthorName())) {
             String nick = "@" + model.getAuthorName();
             holder.author.setText(nick);
         } else {
-            interactors.onAuthorNeeded(model.getId());
             holder.author.setText(null);
         }
         holder.title.setText(model.getTitle());

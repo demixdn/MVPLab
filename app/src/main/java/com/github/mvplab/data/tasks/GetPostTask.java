@@ -9,10 +9,10 @@ import com.github.mvplab.data.cache.MemoryCache;
 import com.github.mvplab.data.callback.PostCallback;
 import com.github.mvplab.data.db.DatabaseSource;
 import com.github.mvplab.data.net.RestApi;
-import com.github.mvplab.models.Comment;
-import com.github.mvplab.models.Post;
-import com.github.mvplab.models.PostModel;
-import com.github.mvplab.models.User;
+import com.github.mvplab.data.models.Comment;
+import com.github.mvplab.data.models.Post;
+import com.github.mvplab.data.models.PostModel;
+import com.github.mvplab.data.models.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,21 +66,30 @@ public class GetPostTask implements Runnable {
                 postModel = getRemotePostModel(postId);
                 if (postModel != null) {
                     returnSuccess(postModel);
-                    callback.onCompleted();
+                    onCompleted();
                 }
                 else
                     returnError();
             } else {
                 returnSuccess(postModel);
-                callback.onCompleted();
+                onCompleted();
             }
         } else {
             checkAuthor(postModel);
             returnSuccess(postModel);
             checkComments(postModel);
             returnSuccess(postModel);
-            callback.onCompleted();
+            onCompleted();
         }
+    }
+
+    private void onCompleted() {
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                callback.onCompleted();
+            }
+        });
     }
 
     private void checkAuthor(PostModel postModel) {

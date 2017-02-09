@@ -1,4 +1,4 @@
-package com.github.mvplab.fragments;
+package com.github.mvplab.ui.post.view;
 
 
 import android.os.Bundle;
@@ -8,19 +8,18 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.mvplab.LabApp;
 import com.github.mvplab.R;
-import com.github.mvplab.adapters.PostCommentsAdapter;
-import com.github.mvplab.data.callback.PostCallback;
-import com.github.mvplab.decoration.CommentItemDecoration;
-import com.github.mvplab.models.PostModel;
+import com.github.mvplab.data.models.PostModel;
+import com.github.mvplab.ui.post.adapter.CommentItemDecoration;
+import com.github.mvplab.ui.post.adapter.PostCommentsAdapter;
+import com.github.mvplab.ui.post.presenter.PostPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,7 +28,7 @@ import butterknife.Unbinder;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PostFragment extends Fragment {
+public class PostFragment extends Fragment implements PostView {
     private static final String PARAM_POST_ID = "extra_post_id";
 
     @BindView(R.id.tvPostDetailTitle)
@@ -42,10 +41,12 @@ public class PostFragment extends Fragment {
     TextView tvCommentsTitle;
     @BindView(R.id.rvPostDetailComments)
     RecyclerView rvComments;
+    @BindView(R.id.progress)
+    ProgressBar progress;
 
-    Unbinder unbinder;
+    private Unbinder unbinder;
 
-    private int postId;
+    private PostPresenter presenter;
 
 
     public PostFragment() {
@@ -54,18 +55,7 @@ public class PostFragment extends Fragment {
 
     public static PostFragment getInstance(int postId) {
         PostFragment postFragment = new PostFragment();
-        Bundle args = new Bundle(1);
-        args.putInt(PARAM_POST_ID, postId);
-        postFragment.setArguments(args);
         return postFragment;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            postId = getArguments().getInt(PARAM_POST_ID);
-        }
     }
 
     @Override
@@ -81,7 +71,7 @@ public class PostFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initUI();
-        initModel();
+        getPresenter().loadPost();
     }
 
     private void initUI() {
@@ -90,6 +80,9 @@ public class PostFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        rvComments.addItemDecoration(new CommentItemDecoration(getContext()));
+        rvComments.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
@@ -99,38 +92,12 @@ public class PostFragment extends Fragment {
         super.onDestroyView();
     }
 
-    private void initModel() {
-        loadPost(postId);
-    }
-
-    private void loadPost(int postId) {
-        LabApp.getPostsRepository().getPost(postId, new PostCallback<PostModel>() {
-            @Override
-            public void onEmit(PostModel data) {
-                if (data != null)
-                    showAll(data);
-            }
-
-            @Override
-            public void onCompleted() {
-                Log.i("***", "onCompleted: PostCallback<PostModel>");
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                Toast.makeText(getContext(), "getPost error", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     private void showAll(@NonNull PostModel model) {
         getActivity().setTitle(model.getTitle());
         tvPostTitle.setText(model.getTitle());
         tvPostText.setText(model.getBody());
 
-        rvComments.addItemDecoration(new CommentItemDecoration(getContext()));
         tvCommentsTitle.setText(getString(R.string.comments_title, model.getComments() != null ? model.getComments().size() : 0));
-        rvComments.setLayoutManager(new LinearLayoutManager(getContext()));
 
         if (model.getAuthorFullName() != null) {
             tvPostAuthor.setText(getString(R.string.by_author, model.getAuthorFullName()));
@@ -140,5 +107,35 @@ public class PostFragment extends Fragment {
         } else {
             tvCommentsTitle.setText(getString(R.string.comments_title, 0));
         }
+    }
+
+    @Override
+    public void showPostModel(@NonNull PostModel postModel) {
+        showAll(postModel);
+    }
+
+    @Override
+    public void showProgress() {
+        progress.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progress.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showError(String errorMessage) {
+        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void bindPresenter(PostPresenter presenter) {
+        this.presenter = presenter;
+    }
+
+    @Override
+    public PostPresenter getPresenter() {
+        return presenter;
     }
 }

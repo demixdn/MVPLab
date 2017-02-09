@@ -18,7 +18,7 @@ import com.github.mvplab.data.net.RestModule;
 import com.github.mvplab.data.tasks.GetPostTask;
 import com.github.mvplab.data.tasks.GetPostsTask;
 import com.github.mvplab.data.tasks.GetRemoteCommentsTask;
-import com.github.mvplab.models.PostModel;
+import com.github.mvplab.data.models.PostModel;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;

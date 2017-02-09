@@ -2,10 +2,10 @@ package com.github.mvplab.data.cache;
 
 import android.support.annotation.Nullable;
 
-import com.github.mvplab.models.Comment;
-import com.github.mvplab.models.Post;
-import com.github.mvplab.models.PostModel;
-import com.github.mvplab.models.User;
+import com.github.mvplab.data.models.Comment;
+import com.github.mvplab.data.models.Post;
+import com.github.mvplab.data.models.PostModel;
+import com.github.mvplab.data.models.User;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;

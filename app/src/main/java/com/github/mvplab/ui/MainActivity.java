@@ -1,15 +1,21 @@
-package com.github.mvplab.activities;
+package com.github.mvplab.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 
+import com.github.mvplab.LabApp;
 import com.github.mvplab.R;
-import com.github.mvplab.fragments.PostFragment;
-import com.github.mvplab.fragments.PostsFragment;
+import com.github.mvplab.ui.post.presenter.PostPresenter;
+import com.github.mvplab.ui.post.presenter.PostPresenterImpl;
+import com.github.mvplab.ui.post.view.PostFragment;
+import com.github.mvplab.ui.listposts.presenter.PostsPresenter;
+import com.github.mvplab.ui.listposts.presenter.PostsPresenterImpl;
+import com.github.mvplab.ui.listposts.view.PostsFragment;
 
-public class MainActivity extends AppCompatActivity implements PostsFragment.OnPostSelectedListener {
+public class MainActivity extends AppCompatActivity implements OnPostSelectedListener {
+
+    private PostPresenter postPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,8 +25,10 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnP
     }
 
     private int startPostsFragment() {
+        PostsPresenter presenter = new PostsPresenterImpl(this, LabApp.getPostsRepository());
         PostsFragment fragment = PostsFragment.getInstance();
-        fragment.setOnPostSelectedListener(this);
+        presenter.bindView(fragment);
+        fragment.bindPresenter(presenter);
         return getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.container, fragment)
@@ -33,18 +41,22 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnP
     }
 
     private void startDetailFragment(int postId) {
+        PostFragment fragment = PostFragment.getInstance(postId);
+        if (postPresenter == null)
+            postPresenter = new PostPresenterImpl(LabApp.getPostsRepository());
+        postPresenter.setPostId(postId);
+        fragment.bindPresenter(postPresenter);
+        postPresenter.bindView(fragment);
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.container, PostFragment.getInstance(postId))
+                .replace(R.id.container, fragment)
                 .addToBackStack(null)
                 .commit();
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.i("***", "onOptionsItemSelected: ");
         if (item.getItemId() == android.R.id.home)
             onBackPressed();
         return super.onOptionsItemSelected(item);
