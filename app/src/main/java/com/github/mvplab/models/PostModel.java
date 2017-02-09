@@ -1,5 +1,10 @@
 package com.github.mvplab.models;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import java.util.List;
+
 /**
  * Date: 06.02.2017
  * Time: 18:47
@@ -10,73 +15,75 @@ package com.github.mvplab.models;
 
 public class PostModel {
     private int id;
+    @NonNull
     private String title;
+    @NonNull
     private String body;
-    private String authorName;
-    private int commentsCount;
+    @Nullable
+    private User author;
+    @Nullable
+    private List<Comment> comments;
 
-    public PostModel(int id, String title, String body) {
+    public PostModel(int id, @NonNull String title, @NonNull String body) {
         this.id = id;
         this.title = title;
         this.body = body;
     }
 
-    public PostModel(int id, String title, String body, String authorName, int commentsCount) {
+    public PostModel(int id, @NonNull String title, @NonNull String body, @Nullable User author, @Nullable List<Comment> comments) {
         this.id = id;
         this.title = title;
         this.body = body;
-        this.authorName = authorName;
-        this.commentsCount = commentsCount;
+        this.author = author;
+        this.comments = comments;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    @NonNull
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
+    @NonNull
     public String getBody() {
         return body;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    @Nullable
+    public String getAuthorFullName() {
+        return author == null ? null : author.getName();
     }
 
+    @Nullable
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    @Nullable
     public String getAuthorName() {
-        return authorName;
-    }
-
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
+        return author == null ? null : author.getUsername();
     }
 
     public int getCommentsCount() {
-        return commentsCount;
+        return comments == null ? 0 : comments.size();
     }
 
-    public void setCommentsCount(int commentsCount) {
-        this.commentsCount = commentsCount;
+    public boolean isHaveAuthor() {
+        return author != null;
     }
 
-    @Override
-    public String toString() {
-        return "PostModel{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", body='" + body + '\'' +
-                ", authorName='" + authorName + '\'' +
-                ", commentsCount=" + commentsCount +
-                '}';
+    public boolean isHaveComments() {
+        return comments != null;
+    }
+
+    public void setAuthor(@Nullable User author) {
+        this.author = author;
+    }
+
+    public void setComments(@Nullable List<Comment> comments) {
+        this.comments = comments;
     }
 }

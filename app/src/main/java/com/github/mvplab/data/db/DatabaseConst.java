@@ -1,4 +1,4 @@
-package com.github.mvplab.db;
+package com.github.mvplab.data.db;
 
 /**
  * Date: 06.02.2017
@@ -8,41 +8,41 @@ package com.github.mvplab.db;
  *         Project MVPLab
  */
 
-public class DatabaseConst {
-    public static final class DATABASE {
-        public static final String NAME = "posts_db.db";
-        public static final int VERSION = 1;
+class DatabaseConst {
+    static final class DATABASE {
+        static final String NAME = "posts_db.db";
+        static final int VERSION = 1;
     }
 
-    public static final class TABLE {
-        public static final String POSTS = "Posts";
-        public static final String USERS = "Users";
-        public static final String COMMENTS = "Comments";
+    static final class TABLE {
+        static final String POSTS = "Posts";
+        static final String USERS = "Users";
+        static final String COMMENTS = "Comments";
     }
 
-    public static final class USER_FIELDS {
-        public static final String ID = "id";
-        public static final String NAME = "name";
-        public static final String USERNAME = "username";
-        public static final String EMAIL = "email";
+    static final class USER_FIELDS {
+        static final String ID = "id";
+        static final String NAME = "name";
+        static final String USERNAME = "username";
+        static final String EMAIL = "email";
     }
 
-    public static final class POST_FIELDS {
-        public static final String ID = "id";
-        public static final String USER_ID = "user_id";
-        public static final String TITLE = "title";
-        public static final String BODY = "body";
+    static final class POST_FIELDS {
+        static final String ID = "id";
+        static final String USER_ID = "user_id";
+        static final String TITLE = "title";
+        static final String BODY = "body";
     }
 
-    public static final class COMMENT_FIELDS {
-        public static final String POST_ID = "post_id";
-        public static final String ID = "id";
-        public static final String NAME = "name";
-        public static final String EMAIL = "email";
-        public static final String BODY = "body";
+    static final class COMMENT_FIELDS {
+        static final String POST_ID = "post_id";
+        static final String ID = "id";
+        static final String NAME = "name";
+        static final String EMAIL = "email";
+        static final String BODY = "body";
     }
 
-    public static final class QUERY {
+    static final class QUERY {
 
         static final String CREATE_TABLE_USERS = "CREATE TABLE "
                 + TABLE.USERS

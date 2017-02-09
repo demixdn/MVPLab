@@ -5,7 +5,7 @@ In simple application the way from code smell to clean code using the pattern MV
 ## Steps
 
 - Legacy code
-- Model (DAO)
-- View + Presenter
+- Model layer
+- View + Presenter layers
 - DI without Dagger
 

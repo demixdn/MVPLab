@@ -2,6 +2,8 @@ package com.github.mvplab.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MenuItem;
 
 import com.github.mvplab.R;
 import com.github.mvplab.fragments.PostFragment;
@@ -36,5 +38,15 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnP
                 .replace(R.id.container, PostFragment.getInstance(postId))
                 .addToBackStack(null)
                 .commit();
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.i("***", "onOptionsItemSelected: ");
+        if (item.getItemId() == android.R.id.home)
+            onBackPressed();
+        return super.onOptionsItemSelected(item);
     }
 }

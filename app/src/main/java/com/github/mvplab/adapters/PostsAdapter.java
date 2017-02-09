@@ -32,7 +32,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostHolder> 
     @NonNull
     private final PostInteractors interactors;
     @NonNull
-    private final List<PostModel> postList;
+    private List<PostModel> postList;
 
     public PostsAdapter(@NonNull Context context, @NonNull PostInteractors postInteractor, @NonNull List<PostModel> postList) {
         this.context = context;
@@ -77,6 +77,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostHolder> 
     public void onClick(View v) {
         int position = (int) v.getTag();
         interactors.onPostClick(postList.get(position).getId());
+    }
+
+    public void update(List<PostModel> postModels) {
+        this.postList = postModels;
+        notifyDataSetChanged();
     }
 
     static class PostHolder extends RecyclerView.ViewHolder {

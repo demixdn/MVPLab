@@ -1,9 +1,8 @@
-package com.github.mvplab.net;
+package com.github.mvplab.data.net;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.github.mvplab.AppConst;
 import com.github.mvplab.BuildConfig;
 
 import java.io.File;
@@ -30,7 +29,7 @@ public class RestModule {
     @NonNull
     private final OkHttpClient.Builder httpClientBuilder;
 
-    public RestModule(Context context) {
+    public RestModule(@NonNull Context context) {
         httpClientBuilder = new OkHttpClient.Builder().readTimeout(TIMEOUT, TimeUnit.SECONDS);
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
@@ -40,9 +39,9 @@ public class RestModule {
         httpClientBuilder.cache(cache);
     }
 
-    public RestApi provideRestApi() {
+    public RestApi provideRestApi(String endpoint) {
         return new Retrofit.Builder()
-                .baseUrl(AppConst.ENDPOINT)
+                .baseUrl(endpoint)
                 .client(httpClientBuilder.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

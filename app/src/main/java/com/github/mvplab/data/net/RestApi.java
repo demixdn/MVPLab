@@ -1,4 +1,4 @@
-package com.github.mvplab.net;
+package com.github.mvplab.data.net;
 
 import com.github.mvplab.AppConst;
 import com.github.mvplab.models.Comment;
@@ -22,13 +22,19 @@ import retrofit2.http.Query;
 public interface RestApi {
 
     @GET(AppConst.POSTS)
-    Call<List<Post>> getPosts();
+    Call<List<Post>> getAllPosts();
+
+    @GET(AppConst.POSTS)
+    Call<Post> getPost(@Query(AppConst.POST_ID) int postId);
+
+    @GET(AppConst.COMMENTS)
+    Call<List<Comment>> getAllComments();
 
     @GET(AppConst.COMMENTS)
     Call<List<Comment>> getCommentByPost(@Query(AppConst.POST_ID) int postId);
 
     @GET(AppConst.USERS)
-    Call<List<User>> getUsers();
+    Call<List<User>> getAllUsers();
 
     @GET(AppConst.USERS)
     Call<User> getUserById(@Query(AppConst.USER_ID) int userId);

@@ -1,4 +1,4 @@
-package com.github.mvplab.db;
+package com.github.mvplab.data.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,9 +12,9 @@ import android.database.sqlite.SQLiteOpenHelper;
  *         Project MVPLab
  */
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+class DatabaseHelper extends SQLiteOpenHelper {
 
-    public DatabaseHelper(Context context) {
+    DatabaseHelper(Context context) {
         super(context, DatabaseConst.DATABASE.NAME, null, DatabaseConst.DATABASE.VERSION);
     }
 

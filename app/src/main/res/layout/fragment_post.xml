@@ -16,7 +16,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/post_title_default"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
 
     <TextView
@@ -30,7 +29,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
-        android:text="@string/by_author"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
     <TextView
@@ -45,7 +43,6 @@
         android:layout_marginLeft="22dp"
         android:layout_marginRight="16dp"
         android:layout_marginStart="22dp"
-        android:text="@string/post_text_default"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
     <TextView
@@ -57,7 +54,6 @@
         android:layout_below="@+id/tvPostDetailText"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="16dp"
-        android:text="@string/comments_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
     <FrameLayout
