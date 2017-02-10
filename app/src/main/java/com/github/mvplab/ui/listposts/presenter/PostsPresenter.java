@@ -1,5 +1,8 @@
 package com.github.mvplab.ui.listposts.presenter;
 
+import android.support.annotation.Nullable;
+
+import com.github.mvplab.ui.OnPostSelectedListener;
 import com.github.mvplab.ui.base.Presenter;
 import com.github.mvplab.ui.listposts.view.PostsView;
 
@@ -12,6 +15,9 @@ import com.github.mvplab.ui.listposts.view.PostsView;
  */
 
 public interface PostsPresenter extends Presenter<PostsView> {
+
+    void setOnPostSelectedListener(@Nullable OnPostSelectedListener onPostSelectedListener);
+
     void loadPosts();
 
     void onPostClick(int postId);

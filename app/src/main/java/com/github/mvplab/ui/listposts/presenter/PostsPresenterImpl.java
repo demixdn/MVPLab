@@ -6,8 +6,8 @@ import android.support.annotation.Nullable;
 import com.github.mvplab.data.callback.PostCallback;
 import com.github.mvplab.data.models.PostModel;
 import com.github.mvplab.data.repository.PostsRepository;
-import com.github.mvplab.ui.base.BasePresenter;
 import com.github.mvplab.ui.OnPostSelectedListener;
+import com.github.mvplab.ui.base.BasePresenter;
 import com.github.mvplab.ui.listposts.view.PostsView;
 
 import java.util.List;
@@ -25,12 +25,18 @@ public class PostsPresenterImpl extends BasePresenter<PostsView> implements Post
     @Nullable
     private List<PostModel> postModels;
 
-    private final OnPostSelectedListener onPostSelectedListener;
     private final PostsRepository postsRepository;
 
-    public PostsPresenterImpl(@Nullable OnPostSelectedListener onPostSelectedListener, @NonNull PostsRepository postsRepository) {
-        this.onPostSelectedListener = onPostSelectedListener;
+    @Nullable
+    private OnPostSelectedListener onPostSelectedListener;
+
+    public PostsPresenterImpl(@NonNull PostsRepository postsRepository) {
         this.postsRepository = postsRepository;
+    }
+
+    @Override
+    public void setOnPostSelectedListener(@Nullable OnPostSelectedListener onPostSelectedListener) {
+        this.onPostSelectedListener = onPostSelectedListener;
     }
 
     @Override
@@ -82,7 +88,6 @@ public class PostsPresenterImpl extends BasePresenter<PostsView> implements Post
         if (getView() != null)
             getView().hideProgress();
     }
-
 
     @Override
     public void onPostClick(int postId) {

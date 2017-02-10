@@ -1,0 +1,58 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".ui.post.view.PostFragment">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tvPostDetailTitle"
+            style="@style/PostTitleStyle"/>
+
+        <TextView
+            android:id="@+id/tvPostDetailAuthor"
+            style="@style/PostAuthorStyle"
+            android:layout_below="@+id/tvPostDetailTitle"/>
+
+        <TextView
+            android:id="@+id/tvPostDetailText"
+            style="@style/PostTextStyle"
+            android:layout_below="@+id/tvPostDetailAuthor"/>
+
+        <TextView
+            android:id="@+id/tvPostDetailCommentsTitle"
+            style="@style/PostCommentsTitleStyle"
+            android:layout_alignLeft="@+id/tvPostDetailAuthor"
+            android:layout_alignStart="@+id/tvPostDetailAuthor"
+            android:layout_below="@+id/tvPostDetailText"/>
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#12000000">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvPostDetailComments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"/>
+    </FrameLayout>
+
+
+</LinearLayout>

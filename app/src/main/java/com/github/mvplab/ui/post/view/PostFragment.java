@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mvplab.LabApp;
 import com.github.mvplab.R;
 import com.github.mvplab.data.models.PostModel;
 import com.github.mvplab.ui.post.adapter.CommentItemDecoration;
@@ -30,6 +32,7 @@ import butterknife.Unbinder;
  */
 public class PostFragment extends Fragment implements PostView {
     private static final String PARAM_POST_ID = "extra_post_id";
+    private static final String POST_TAG = "PostFragment";
 
     @BindView(R.id.tvPostDetailTitle)
     TextView tvPostTitle;
@@ -48,14 +51,22 @@ public class PostFragment extends Fragment implements PostView {
 
     private PostPresenter presenter;
 
-
     public PostFragment() {
         // Required empty public constructor
     }
 
     public static PostFragment getInstance(int postId) {
         PostFragment postFragment = new PostFragment();
+        Bundle args = new Bundle(1);
+        args.putInt(PARAM_POST_ID, postId);
+        postFragment.setArguments(args);
         return postFragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        LabApp.getApplication().inject(this);
     }
 
     @Override
@@ -71,7 +82,54 @@ public class PostFragment extends Fragment implements PostView {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initUI();
-        getPresenter().loadPost();
+        initModel();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.i(POST_TAG, "onStart: ");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(POST_TAG, "onResume: ");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i(POST_TAG, "onPause: ");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.i(POST_TAG, "onStop: ");
+    }
+
+    @Override
+    public void onDestroyView() {
+        if (unbinder != null)
+            unbinder.unbind();
+        super.onDestroyView();
+        Log.i(POST_TAG, "onDestroyView: ");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i(POST_TAG, "onDestroy: ");
+    }
+
+    private void initModel() {
+        if(getArguments()!=null) {
+            getPresenter().setPostId(getArguments().getInt(PARAM_POST_ID));
+            getPresenter().loadPost();
+        }else {
+            showError("Post id not set");
+        }
     }
 
     private void initUI() {
@@ -83,13 +141,6 @@ public class PostFragment extends Fragment implements PostView {
 
         rvComments.addItemDecoration(new CommentItemDecoration(getContext()));
         rvComments.setLayoutManager(new LinearLayoutManager(getContext()));
-    }
-
-    @Override
-    public void onDestroyView() {
-        if (unbinder != null)
-            unbinder.unbind();
-        super.onDestroyView();
     }
 
     private void showAll(@NonNull PostModel model) {

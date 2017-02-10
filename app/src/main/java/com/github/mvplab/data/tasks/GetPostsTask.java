@@ -39,7 +39,7 @@ public class GetPostsTask implements Runnable {
     private final PostCallback<List<PostModel>> callback;
     @NonNull
     private final MemoryCache memoryCache;
-    @NonNull
+    @Nullable
     private final CommentsNeedCallback commentsNeedCallback;
 
     public GetPostsTask(@NonNull DatabaseSource diskDataSource,
@@ -47,7 +47,7 @@ public class GetPostsTask implements Runnable {
                         @NonNull Handler mainHandler,
                         @NonNull PostCallback<List<PostModel>> callback,
                         @NonNull MemoryCache memoryCache,
-                        @NonNull CommentsNeedCallback commentsNeedCallback) {
+                        @Nullable CommentsNeedCallback commentsNeedCallback) {
         this.diskDataSource = diskDataSource;
         this.restApi = restApi;
         this.mainHandler = mainHandler;
@@ -97,7 +97,7 @@ public class GetPostsTask implements Runnable {
             memoryCache.putComments(postId, comments);
         }
 
-        if (comments == null) {
+        if (comments == null && commentsNeedCallback != null) {
             commentsNeedCallback.needCommentsFor(postId);
         }
         return comments;

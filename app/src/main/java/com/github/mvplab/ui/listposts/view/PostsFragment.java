@@ -2,6 +2,7 @@ package com.github.mvplab.ui.listposts.view;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,8 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.github.mvplab.LabApp;
 import com.github.mvplab.R;
 import com.github.mvplab.data.models.PostModel;
+import com.github.mvplab.ui.OnPostSelectedListener;
 import com.github.mvplab.ui.listposts.adapter.PostsAdapter;
 import com.github.mvplab.ui.listposts.presenter.PostsPresenter;
 
@@ -39,6 +42,8 @@ public class PostsFragment extends Fragment implements PostsView, PostInteractor
     private PostsPresenter presenter;
 
     private ProgressDialog progressDialog;
+    @Nullable
+    private OnPostSelectedListener onPostSelectedListener;
 
     public PostsFragment() {
         // Required empty public constructor
@@ -52,27 +57,77 @@ public class PostsFragment extends Fragment implements PostsView, PostInteractor
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof OnPostSelectedListener){
+            onPostSelectedListener = (OnPostSelectedListener) context;
+        }
+    }
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.i(TAG, "onCreate: ");
+        LabApp.getApplication().inject(this);
+        getPresenter().setOnPostSelectedListener(onPostSelectedListener);
+    }
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_posts, container, false);
         unbinder = ButterKnife.bind(this, view);
-        Log.i("***", "onCreateView: ");
+        Log.i(TAG, "onCreateView: ");
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i("***", "onViewCreated: ");
+        Log.i(TAG, "onViewCreated: ");
         init();
         getPresenter().loadPosts();
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.i(TAG, "onStart: ");
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Log.i(TAG, "onResume: ");
         changeActionBar();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i(TAG, "onPause: ");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.i(TAG, "onStop: ");
+    }
+
+    @Override
+    public void onDestroyView() {
+        if (unbinder != null)
+            unbinder.unbind();
+        super.onDestroyView();
+        Log.i(TAG, "onDestroyView: ");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestroy: ");
     }
 
     private void changeActionBar() {
@@ -82,13 +137,6 @@ public class PostsFragment extends Fragment implements PostsView, PostInteractor
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        if (unbinder != null)
-            unbinder.unbind();
-        super.onDestroyView();
     }
 
     private void init() {

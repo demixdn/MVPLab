@@ -2,33 +2,64 @@ package com.github.mvplab.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
-import com.github.mvplab.LabApp;
 import com.github.mvplab.R;
-import com.github.mvplab.ui.post.presenter.PostPresenter;
-import com.github.mvplab.ui.post.presenter.PostPresenterImpl;
-import com.github.mvplab.ui.post.view.PostFragment;
-import com.github.mvplab.ui.listposts.presenter.PostsPresenter;
-import com.github.mvplab.ui.listposts.presenter.PostsPresenterImpl;
 import com.github.mvplab.ui.listposts.view.PostsFragment;
+import com.github.mvplab.ui.post.view.PostFragment;
 
 public class MainActivity extends AppCompatActivity implements OnPostSelectedListener {
 
-    private PostPresenter postPresenter;
+    private static final String ACTIVITY_TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        startPostsFragment();
+        Log.i(ACTIVITY_TAG, "onCreate: ");
+        if (savedInstanceState == null)
+            startPostsFragment();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i(ACTIVITY_TAG, "onStart: ");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(ACTIVITY_TAG, "onResume: ");
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        Log.i(ACTIVITY_TAG, "onPostResume: ");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(ACTIVITY_TAG, "onPause: ");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(ACTIVITY_TAG, "onStop: ");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(ACTIVITY_TAG, "onDestroy: ");
     }
 
     private int startPostsFragment() {
-        PostsPresenter presenter = new PostsPresenterImpl(this, LabApp.getPostsRepository());
         PostsFragment fragment = PostsFragment.getInstance();
-        presenter.bindView(fragment);
-        fragment.bindPresenter(presenter);
         return getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.container, fragment)
@@ -42,18 +73,12 @@ public class MainActivity extends AppCompatActivity implements OnPostSelectedLis
 
     private void startDetailFragment(int postId) {
         PostFragment fragment = PostFragment.getInstance(postId);
-        if (postPresenter == null)
-            postPresenter = new PostPresenterImpl(LabApp.getPostsRepository());
-        postPresenter.setPostId(postId);
-        fragment.bindPresenter(postPresenter);
-        postPresenter.bindView(fragment);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container, fragment)
                 .addToBackStack(null)
                 .commit();
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
