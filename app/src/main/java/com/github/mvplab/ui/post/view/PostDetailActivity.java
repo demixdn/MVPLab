@@ -1,17 +1,15 @@
 package com.github.mvplab.ui.post.view;
 
-
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,12 +25,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class PostFragment extends Fragment implements PostView {
+public class PostDetailActivity extends AppCompatActivity implements PostView {
+
     private static final String PARAM_POST_ID = "extra_post_id";
-    private static final String POST_TAG = "PostFragment";
+    private static final String TAG = "PostDetailActivity";
 
     @BindView(R.id.tvPostDetailTitle)
     TextView tvPostTitle;
@@ -51,100 +47,87 @@ public class PostFragment extends Fragment implements PostView {
 
     private PostPresenter presenter;
 
-    public PostFragment() {
-        // Required empty public constructor
-    }
-
-    public static PostFragment getInstance(int postId) {
-        PostFragment postFragment = new PostFragment();
-        Bundle args = new Bundle(1);
-        args.putInt(PARAM_POST_ID, postId);
-        postFragment.setArguments(args);
-        return postFragment;
+    public static void navigate(Activity activity, int postId) {
+        Intent postDetailIntent = new Intent(activity, PostDetailActivity.class);
+        postDetailIntent.putExtra(PARAM_POST_ID, postId);
+        activity.startActivity(postDetailIntent);
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LabApp.getApplication().inject(this);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_post, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        setContentView(R.layout.fragment_post);
         initUI();
+        LabApp.getApplication().inject(this);
         initModel();
     }
 
     @Override
-    public void onStart() {
+    protected void onStart() {
         super.onStart();
-        Log.i(POST_TAG, "onStart: ");
+        Log.i(TAG, "onStart: ");
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
-        Log.i(POST_TAG, "onResume: ");
+        Log.i(TAG, "onResume: ");
     }
 
     @Override
-    public void onPause() {
+    protected void onPostResume() {
+        super.onPostResume();
+        Log.i(TAG, "onPostResume: ");
+    }
+
+    @Override
+    protected void onPause() {
         super.onPause();
-        Log.i(POST_TAG, "onPause: ");
+        Log.i(TAG, "onPause: ");
     }
 
     @Override
-    public void onStop() {
+    protected void onStop() {
         super.onStop();
-        Log.i(POST_TAG, "onStop: ");
+        Log.i(TAG, "onStop: ");
     }
 
     @Override
-    public void onDestroyView() {
+    protected void onDestroy() {
         if (unbinder != null)
             unbinder.unbind();
-        super.onDestroyView();
-        Log.i(POST_TAG, "onDestroyView: ");
+        super.onDestroy();
+        Log.i(TAG, "onDestroy: ");
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.i(POST_TAG, "onDestroy: ");
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home)
+            onBackPressed();
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void initUI() {
+        unbinder = ButterKnife.bind(this);
+
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        rvComments.addItemDecoration(new CommentItemDecoration(this));
+        rvComments.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void initModel() {
-        if(getArguments()!=null) {
-            getPresenter().setPostId(getArguments().getInt(PARAM_POST_ID));
+        if (getIntent() != null) {
+            getPresenter().setPostId(getIntent().getIntExtra(PARAM_POST_ID, 0));
             getPresenter().loadPost();
-        }else {
+        } else {
             showError("Post id not set");
         }
     }
 
-    private void initUI() {
-        try {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        rvComments.addItemDecoration(new CommentItemDecoration(getContext()));
-        rvComments.setLayoutManager(new LinearLayoutManager(getContext()));
-    }
-
     private void showAll(@NonNull PostModel model) {
-        getActivity().setTitle(model.getTitle());
+        setTitle(model.getTitle());
         tvPostTitle.setText(model.getTitle());
         tvPostText.setText(model.getBody());
 
@@ -154,7 +137,7 @@ public class PostFragment extends Fragment implements PostView {
             tvPostAuthor.setText(getString(R.string.by_author, model.getAuthorFullName()));
         }
         if (model.getComments() != null && !model.getComments().isEmpty()) {
-            rvComments.setAdapter(new PostCommentsAdapter(getContext(), model.getComments()));
+            rvComments.setAdapter(new PostCommentsAdapter(this, model.getComments()));
         } else {
             tvCommentsTitle.setText(getString(R.string.comments_title, 0));
         }
@@ -177,7 +160,7 @@ public class PostFragment extends Fragment implements PostView {
 
     @Override
     public void showError(String errorMessage) {
-        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
     }
 
     @Override
