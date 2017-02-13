@@ -1,9 +1,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.post.view.PostFragment">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/tvPostDetailTitle"
@@ -11,26 +9,26 @@
 
     <TextView
         android:id="@+id/tvPostDetailAuthor"
-        android:layout_below="@+id/tvPostDetailTitle"
-        style="@style/PostAuthorStyle"/>
+        style="@style/PostAuthorStyle"
+        android:layout_below="@+id/tvPostDetailTitle"/>
 
     <TextView
         android:id="@+id/tvPostDetailText"
-        android:layout_below="@+id/tvPostDetailAuthor"
-        style="@style/PostTextStyle"/>
+        style="@style/PostTextStyle"
+        android:layout_below="@+id/tvPostDetailAuthor"/>
 
     <TextView
         android:id="@+id/tvPostDetailCommentsTitle"
+        style="@style/PostCommentsTitleStyle"
         android:layout_alignLeft="@+id/tvPostDetailAuthor"
         android:layout_alignStart="@+id/tvPostDetailAuthor"
-        android:layout_below="@+id/tvPostDetailText"
-        style="@style/PostCommentsTitleStyle"/>
+        android:layout_below="@+id/tvPostDetailText"/>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#12000000"
-        android:layout_below="@+id/tvPostDetailCommentsTitle">
+        android:layout_below="@+id/tvPostDetailCommentsTitle"
+        android:background="#12000000">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvPostDetailComments"
@@ -38,13 +36,12 @@
             android:layout_height="wrap_content"/>
 
         <ProgressBar
+            android:id="@+id/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
-            android:id="@+id/progress"
             android:visibility="gone"/>
     </FrameLayout>
-
 
 </RelativeLayout>
