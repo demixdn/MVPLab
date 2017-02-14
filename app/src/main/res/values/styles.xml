@@ -1,11 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/main_background</item>
     </style>
 
     <style name="PostTitleStyle">
@@ -115,4 +116,5 @@
         <item name="android:layout_alignParentEnd" tools:targetApi="jelly_bean_mr1">true</item>
     </style>
 
+    <color name="main_background">#F1F1F1</color>
 </resources>

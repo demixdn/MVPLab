@@ -11,12 +11,9 @@ import com.github.mvplab.data.net.RestApi;
 import com.github.mvplab.data.net.RestModule;
 import com.github.mvplab.data.repository.PostsRepository;
 import com.github.mvplab.data.repository.PostsRepositoryImpl;
-import com.github.mvplab.ui.MainActivity;
 import com.github.mvplab.ui.listposts.presenter.PostsPresenter;
 import com.github.mvplab.ui.listposts.presenter.PostsPresenterImpl;
 import com.github.mvplab.ui.listposts.view.PostsView;
-import com.github.mvplab.ui.navigation.Navigator;
-import com.github.mvplab.ui.navigation.NavigatorImpl;
 import com.github.mvplab.ui.post.presenter.PostPresenter;
 import com.github.mvplab.ui.post.presenter.PostPresenterImpl;
 import com.github.mvplab.ui.post.view.PostView;
@@ -50,7 +47,6 @@ public class LabApp extends Application {
     private OkHttpClient okHttpClient;
     private JobExecutor jobExecutor;
     private RestApi restApi;
-    private Navigator navigator;
 
     private PostPresenter postPresenter;
     private PostsPresenter postsPresenter;
@@ -124,12 +120,6 @@ public class LabApp extends Application {
         return jobExecutor;
     }
 
-    private Navigator getNavigator() {
-        if(navigator == null)
-            navigator = new NavigatorImpl();
-        return navigator;
-    }
-
     private PostPresenter getPostPresenter() {
         if (postPresenter == null)
             postPresenter = new PostPresenterImpl(getPostsRepository());
@@ -140,10 +130,6 @@ public class LabApp extends Application {
         if (postsPresenter == null)
             postsPresenter = new PostsPresenterImpl(getPostsRepository());
         return postsPresenter;
-    }
-
-    public void inject(@NonNull MainActivity mainActivity){
-        mainActivity.setNavigator(getNavigator());
     }
 
     public void inject(@NonNull PostView postView) {
