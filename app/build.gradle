@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "com.github.mvplab"
         minSdkVersion 16
@@ -20,15 +20,16 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:cardview-v7:25.1.0'
-    compile 'com.android.support:recyclerview-v7:25.1.0'
-    compile 'com.android.support:support-v4:25.1.0'
-    compile 'com.google.code.gson:gson:2.4'
+    def s = '25.3.1'
+    compile 'com.android.support:appcompat-v7:' + s
+    compile 'com.android.support:cardview-v7:' + s
+    compile 'com.android.support:recyclerview-v7:' + s
+    compile 'com.android.support:support-v4:' + s
+    compile 'com.google.code.gson:gson:2.7'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
-    compile 'com.squareup.retrofit2:retrofit:2.2.0-SNAPSHOT'
-    compile 'com.squareup.retrofit2:converter-gson:2.2.0-SNAPSHOT'
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }
